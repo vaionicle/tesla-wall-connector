@@ -1,0 +1,125 @@
+---
+modules:
+  tesla-wall-lifetime:
+    metrics:
+    - name: "tesla_lifetime"
+      type: object
+      help: Read Values from Api Lifetime
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+      values:
+        contactor_cycles: '{ .contactor_cycles }'
+        contactor_cycles_loaded: '{ .contactor_cycles_loaded }'
+        alert_count: '{ .alert_count }'
+        thermal_foldbacks: '{ .thermal_foldbacks }'
+        avg_startup_temp: '{ .avg_startup_temp }'
+        charge_starts: '{ .charge_starts }'
+        energy_wh: '{ .energy_wh }'
+        connector_cycles: '{ .connector_cycles }'
+        uptime_s: '{ .uptime_s }'
+        charging_time_s: '{ .charging_time_s }'
+  tesla-wall-vitals:
+    metrics:
+    - name: "tesla_vital_vehicle"
+      type: object
+      help: Read Values from Api Vital Vehicle
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: vehicle
+      values:
+        vehicle_connected: '{ .vehicle_connected }'
+        contactor_closed: '{ .contactor_closed }'
+    - name: "tesla_vital_session"
+      type: object
+      help: Read Values from Api Vital Vehicle Charge Session
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: session
+      values:
+        session_energy_wh: '{ .session_energy_wh }'
+        session_s: '{ .session_s }'
+    - name: "tesla_vital_current"
+      type: object
+      help: Read Values from Api Vital Current
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: current
+      values:
+        currentA_a: '{ .currentA_a }'
+        currentB_a: '{ .currentB_a }'
+        currentC_a: '{ .currentC_a }'
+        currentN_a: '{ .currentN_a }'
+        vehicle_current_a: '{ .vehicle_current_a }'
+    - name: "tesla_vital_voltage"
+      type: object
+      help: Read Values from Api Vital Voltages
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: voltage
+      values:
+        voltageA_v: '{ .voltageA_v }'
+        voltageB_v: '{ .voltageB_v }'
+        voltageC_v: '{ .voltageC_v }'
+        relay_coil_v: '{ .relay_coil_v }'
+    - name: "tesla_vital_temp"
+      type: object
+      help: Read Values from Api Vital Temperatures
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: temperature
+      values:
+        pcba_temp_c: '{ .pcba_temp_c }'
+        handle_temp_c: '{ .handle_temp_c }'
+        mcu_temp_c: '{ .mcu_temp_c }'
+    - name: "tesla_vital_grid"
+      type: object
+      help: Read Values from Api Vital Grid
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: grid
+      values:
+        grid_v: '{ .grid_v }'
+        grid_hz: '{ .grid_hz }'
+    - name: "tesla_vital_pilot"
+      type: object
+      help: Read Values from Api Vital Pilot
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: pilot
+      values:
+        grid_v: '{ .pilot_high_v }'
+        grid_hz: '{ .pilot_low_v }'
+    - name: "tesla_vital_state"
+      type: object
+      help: Read Values from Api Vital State
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: state
+      values:
+        evse_state: '{ .evse_state }'
+  tesla-wall-wifi-status:
+    metrics:
+    - name: "tesla_wifi_status"
+      type: object
+      help: Read Values from Api Wifi Status
+      path: '{@}'
+      labels:
+        device: tesla-wall-charger
+        section: vehicle
+        infra_ip: '{ .wifi_infra_ip }'
+        mac: '{ .wifi_mac }'
+      values:
+        wifi_signal_strength: '{ .wifi_signal_strength }'
+        wifi_rssi: '{ .wifi_rssi }'
+        wifi_snr: '{ .wifi_snr }'
+        wifi_connected: '{ .wifi_connected }'
+        internet: '{ .internet }'

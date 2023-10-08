@@ -1,0 +1,91 @@
+# my global config
+global:
+  # scrape_interval:     120s # By default  scrape targets every 15 seconds.
+  # evaluation_interval: 120s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'my-project'
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+# rule_files:
+  # - "alert.rules"
+  # - "first.rules"
+  # - "second.rules"
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+# rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+        - 'localhost:9090'
+
+  - job_name: tesla-lifetime
+    metrics_path: /probe
+    scrape_interval: 2s
+    params:
+      module: [tesla-wall-lifetime]
+    static_configs:
+      - targets:
+        - http://10.0.0.111/api/1/lifetime
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+
+      - source_labels: [__param_target]
+        target_label: instance
+
+      - target_label: __address__
+        replacement: exporter_json_tesla_lifetime:7979
+
+  - job_name: tesla-vital
+    metrics_path: /probe
+    scrape_interval: 2s
+    params:
+      module: [tesla-wall-vitals]
+    static_configs:
+      - targets:
+        - http://10.0.0.111/api/1/vitals
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+
+      - source_labels: [__param_target]
+        target_label: instance
+
+      - target_label: __address__
+        replacement: exporter_json_tesla_vital:7979
+
+  - job_name: tesla-wifi-status
+    metrics_path: /probe
+    scrape_interval: 2s
+    params:
+      module: [tesla-wall-wifi-status]
+    static_configs:
+      - targets:
+        - http://10.0.0.111/api/1/wifi_status
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+
+      - source_labels: [__param_target]
+        target_label: instance
+
+      - target_label: __address__
+        replacement: exporter_json_tesla_wifi_status:7979
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager:9093

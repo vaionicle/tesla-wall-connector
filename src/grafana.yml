@@ -1,0 +1,29 @@
+version: "3.9"
+
+x-logging:
+  &default-logging
+  options:
+    max-size: '100m'
+    max-file: '5'
+  driver: local
+  # driver: json-file
+
+services:
+
+  grafana:
+    image: "grafana/grafana-oss:${VERSION_GRAFANA}"
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    volumes:
+      - ${VOLUME_PATH}/grafana-data:/var/lib/grafana
+      - ./configs/grafana_custom.ini:/etc/grafana/custom.ini
+    environment:
+      - GF_PATHS_CONFIG=/etc/grafana/custom.ini
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel,pr0ps-trackmap-panel,stagemonitor-elasticsearch-app
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - SERVER_NAME=grafana
+    logging: *default-logging

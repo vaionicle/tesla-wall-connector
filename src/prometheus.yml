@@ -1,0 +1,70 @@
+version: "3.9"
+
+x-logging:
+  &default-logging
+  options:
+    max-size: '100m'
+    max-file: '5'
+  driver: local
+
+services:
+  prometheus:
+    image: "prom/prometheus:${VERSION_PROMETHEUS}"
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${VOLUME_PATH}/prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=1y'
+      - '--storage.tsdb.retention.size=20GB'
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    logging: *default-logging
+
+  json-exporter-tesla-wall-charger-vital:
+    image: "prometheuscommunity/json-exporter:${VERSION_JSON_EXPORTER}"
+    container_name: exporter_json_tesla_vital
+    restart: unless-stopped
+    command:
+      - '--config.file=/config.yml'
+    expose:
+      - 7979
+    volumes:
+      - ./configs/json_config_tesla.yml:/config.yml
+    depends_on:
+      - prometheus
+    logging: *default-logging
+
+  json-exporter-tesla-wall-charger-lifetime:
+    image: "prometheuscommunity/json-exporter:${VERSION_JSON_EXPORTER}"
+    container_name: exporter_json_tesla_lifetime
+    restart: unless-stopped
+    command:
+      - '--config.file=/config.yml'
+    expose:
+      - 7979
+    volumes:
+      - ./configs/json_config_tesla.yml:/config.yml
+    depends_on:
+      - prometheus
+    logging: *default-logging
+
+  json-exporter-tesla-wall-charger-wifi-status:
+    image: "prometheuscommunity/json-exporter:${VERSION_JSON_EXPORTER}"
+    container_name: exporter_json_tesla_wifi_status
+    restart: unless-stopped
+    command:
+      - '--config.file=/config.yml'
+    expose:
+      - 7979
+    volumes:
+      - ./configs/json_config_tesla.yml:/config.yml
+    depends_on:
+      - prometheus
+    logging: *default-logging
+
