@@ -3,13 +3,23 @@
 Metrics from Tesla Wall Connector using Prometheus and Grafana
 
 - [tesla-wall-connector](#tesla-wall-connector)
-  - [Configure](#configure)
-  - [Run](#run)
-  - [Docker URL](#docker-url)
-  - [Makefile](#makefile)
-  - [Tesla Charger Gen3 Api](#tesla-charger-gen3-api)
+  - [Dashboard](#dashboard)
+  - [Development](#development)
+    - [Configure](#configure)
+    - [Run](#run)
+  - [FYI](#fyi)
+    - [Docker URL](#docker-url)
+    - [Makefile](#makefile)
+    - [Tesla Charger Gen3 Api](#tesla-charger-gen3-api)
+    - [Useful links](#useful-links)
 
-## Configure
+## Dashboard
+
+![Dashboard](./images/Screenshot%202023-10-08%20at%2021.00.32.png)
+
+## Development
+
+### Configure
 
 src/configs/prometheus.yml
 
@@ -20,13 +30,15 @@ Lines:
 
 Replace **10.0.0.111** with your **tesla wall charger IP**
 
-## Run
+### Run
 
 ```bash
 make pi4.run
 ```
 
-## Docker URL
+## FYI
+
+### Docker URL
 
 Prometheus
 http://localhost:9090/
@@ -37,7 +49,7 @@ http://localhost:3000
 username: tesla
 password: tesla
 
-## Makefile
+### Makefile
 
 ```bash
 make pi4.run
@@ -67,7 +79,7 @@ make pi4.logs
 make pi4.cleanup
 ```
 
-## Tesla Charger Gen3 Api
+### Tesla Charger Gen3 Api
 
 - http://IP_TESLA_CHARGER/api/1/lifetime
 
@@ -143,3 +155,9 @@ make pi4.cleanup
   "serial_number": "PGTxxxxxxxxxxx"
 }
 ```
+
+### Useful links
+
+- https://github.com/fynnsh/teslawallconnector-exporter/blob/main/teslawallconnector-exporter.py
+- https://github.com/averysmalldog/tesla-gen3wc-monitor/blob/main/Basic%20HPWC%20Info%20Grafana%20Dashboard.json
+- https://github.com/munin-monitoring/contrib/pull/1318/commits/fc2d236b76c7d70432d96f704b73403f61f8571b
